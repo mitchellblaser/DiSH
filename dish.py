@@ -5,6 +5,7 @@ import json
 import os
 
 # TODO: Add New Line Support for Sent Messages
+# TODO: Text Wrapping in MessageList.
 # TODO: Hide the token somewhere
 # TODO: Dynamic Screen Resizing
 # TODO: Server Selection Endless Scrolling
@@ -192,7 +193,9 @@ while True:
                         local_messages = discordGet("/channels/" + activeChannel['id'] + "/messages")
                         for i in range(1, curses.LINES-messageSize-3):
                             try:
-                                MessageList.addstr(i, 1, local_messages[(curses.LINES-messageSize-3)-i-1]['author']['username'] + ": " + local_messages[(curses.LINES-messageSize-3)-i-1]['content'])
+                                userString = local_messages[(curses.LINES-messageSize-3)-i-1]['author']['username'] + ": "
+                                MessageList.addstr(i, 1, userString, curses.color_pair(4) | curses.A_ITALIC)
+                                MessageList.addstr(i, 1+len(userString), local_messages[(curses.LINES-messageSize-3)-i-1]['content'])
                             except:
                                 None
                         MessageList.refresh()
@@ -232,21 +235,17 @@ while True:
                             ChannelSelector = ChannelSelector - 1
                             listChannels(ChannelSelector)
                             ChannelList.refresh()
-                            LastUpdate = 0
                             MessageList.clear()
                             MessageList.border()
                             MessageList.addstr(0, 2, "[ " + activeServer['name'] + " ]", curses.color_pair(4))
-                            LastUpdate = 0
                             MessageList.refresh()
                     elif key == curses.KEY_NPAGE:
                         ChannelSelector = ChannelSelector + 1
                         listChannels(ChannelSelector)
                         ChannelList.refresh()
-                        LastUpdate = 0
                         MessageList.clear()
                         MessageList.border()
                         MessageList.addstr(0, 2, "[ " + activeServer['name'] + " ]", curses.color_pair(4))
-                        LastUpdate = 0
                         MessageList.refresh()
                     elif key == curses.KEY_F10:
                         messageSize = messageSize + 1
