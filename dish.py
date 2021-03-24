@@ -6,7 +6,6 @@ import os
 
 # TODO: Add New Line Support for Sent Messages
 # TODO: Text Wrapping in MessageList.
-# TODO: Hide the token somewhere
 # TODO: Server Selection Endless Scrolling
 # TODO: Notifications and Notification Menu
 # TODO: Image Links in MessageList.
@@ -214,7 +213,11 @@ load.addstr("Connected as " + userdata['user']['username'] + "#" + userdata['use
 load.refresh()
 userdata['guilds'] = discordGet("/v8/users/@me/guilds")
 time.sleep(0.5)
+NeedsRedraw = False
 while True:
+    if NeedsRedraw:
+        UpdateWindowSize()
+        DrawListWindow()
     curses.curs_set(0)
     stdscr.clear()
     stdscr.addstr("DiSH: Connected as User " + userdata['user']['username'] + "#" + userdata['user']['discriminator'] + ".\n")
@@ -257,6 +260,7 @@ while True:
                 try:
                     key = stdscr.getch()
                     if key == 27: #ESC Key
+                        NeedsRedraw = True
                         break
                     elif key == curses.KEY_ENTER or key == 10 or key == 13:
                         SendMessage(activeChannel['id'], Input)
@@ -303,7 +307,7 @@ while True:
                         MessageList.border()
                         MessageList.addstr(0, 2, "[ " + activeServer['name'] + " ]", curses.color_pair(4))
                         MessageList.refresh()
-                    elif key == curses.KEY_F10:
+                    elif key == curses.KEY_F10: #FIXME: Remove this.
                         messageSize = messageSize + 1
                         MessageBox.mvwin(rows-messageSize,20)
                         MessageBox.resize(messageSize, cols-40)
