@@ -218,6 +218,7 @@ while True:
     if NeedsRedraw:
         UpdateWindowSize()
         DrawListWindow()
+        NeedsRedraw = False
     curses.curs_set(0)
     stdscr.clear()
     stdscr.addstr("DiSH: Connected as User " + userdata['user']['username'] + "#" + userdata['user']['discriminator'] + ".\n")
