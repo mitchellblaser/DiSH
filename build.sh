@@ -1,1 +1,1 @@
-nuitka3 dish.py --follow-imports
+nuitka3 dish.py --follow-imports --standalone
