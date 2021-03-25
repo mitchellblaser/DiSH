@@ -1,4 +1,4 @@
 
-dish.build/
-dish.dist/
-dish.bin
+dishclient.build/
+dishclient.dist/
+dishclient.bin
